@@ -128,67 +128,158 @@
 //   return null;
 // }
 
+// import React, { useState } from "react";
+// import "./style.css";
+
+// export default function Button() {
+//   const [buttons, setButtons] = useState([]);
+//   const [inputValue, setInpuvalue] = useState(" ");
+//   const [firstbutton, setFirstbutton] = useState(" ");
+
+//   function Inputchange(i) {
+//     setInpuvalue(i.target.value);
+//   }
+
+//   function add() {
+//     if (inputValue !== " ") {
+//       if (buttons.length < 10) {
+//         if (buttons.length === 0) {
+//           setFirstbutton(inputValue);
+//         }
+//         setButtons([...buttons, inputValue]);
+//         setInpuvalue(" ");
+//       }
+//     }
+//     // const newButton = (
+//     //   <button key={buttons.length + 1}>{buttons.length + 1}</button>
+//     // );
+//     // setButtons([...buttons, newButton]);
+//   }
+
+//   function deleteButton() {
+//     if (buttons.length > 0) {
+//       if (buttons.length === 1) {
+//         setFirstbutton(" ");
+//       }
+//       setButtons((tru_button) => tru_button.slice(0, tru_button.length - 1));
+//     }
+
+//     // const updatedButtons = [...buttons];
+//     // updatedButtons.pop();
+//     // setButtons(updatedButtons);
+//   }
+
+//   function Total() {
+//     const sum = buttons.reduce(
+//       (total, currenValue) => total + Number(currenValue),
+//       0
+//     );
+//     return sum;
+//   }
+
+//   return (
+//     <>
+//       <div>
+//         <input type=" text" value={inputValue} onChange={Inputchange} />
+//         <button className="buttonAdd" onClick={add}>
+//           Add
+//         </button>
+//         <button
+//           className="buttonDelete"
+//           onClick={deleteButton}
+//           disabled={buttons.length === 0}
+//         >
+//           Delete
+//         </button>
+//         {buttons.map((buttonId) => (
+//           <button key={buttonId}>{buttonId}</button>
+//         ))}
+//       </div>
+
+//       <div>
+//         <p className="buttonTotal">Total:{Total()}</p>
+//       </div>
+//     </>
+//   );
+// }
+
 import React, { useState } from "react";
 import "./style.css";
 
 export default function Button() {
-  const [buttons, setButtons] = useState([]);
-  const [inputValue, setInpuvalue] = useState(" ");
-
-  function Inputchange(i) {
-    setInpuvalue(i.target.value);
-  }
+  const [inputs, setInputs] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   function add() {
-    if (inputValue !== " ") {
-      setButtons([...buttons, inputValue]);
-      setInpuvalue(" ");
-    }
-    // const newButton = (
-    //   <button key={buttons.length + 1}>{buttons.length + 1}</button>
-    // );
-    // setButtons([...buttons, newButton]);
+    const newInput = {
+      id: inputs.length + 1,
+      value: inputValue,
+    };
+    setInputs([...inputs, newInput]);
+    setInputValue("");
   }
 
-  function deleteButton() {
-    if (buttons.length > 0) {
-      setButtons((tru_button) => tru_button.slice(0, tru_button.length - 1));
-    }
-
-    // const updatedButtons = [...buttons];
-    // updatedButtons.pop();
-    // setButtons(updatedButtons);
+  function Delete() {
+    const updatedInputs = [...inputs];
+    updatedInputs.pop();
+    setInputs(updatedInputs);
   }
 
   function Total() {
-    const sum = buttons.reduce(
-      (total, currenValue) => total + Number(currenValue),
-      0
-    );
+    let sum = 0;
+    inputs.forEach((input) => {
+      const inputValue = parseInt(input.value, 10);
+      if (!isNaN(inputValue)) {
+        sum += inputValue;
+      }
+    });
     return sum;
+  }
+
+  function handleChange(e, inputId) {
+    const updatedInputs = inputs.map((input) => {
+      if (input.id === inputId) {
+        return {
+          ...input,
+          value: e.target.value,
+        };
+      }
+      return input;
+    });
+    setInputs(updatedInputs);
   }
 
   return (
     <>
       <div>
-        <input type=" text" value={inputValue} onChange={Inputchange} />
-        <button className="buttonAdd" onClick={add}>
+        <button
+          className="addButton"
+          onClick={add}
+          disabled={inputs.length === 10}
+        >
           Add
         </button>
         <button
-          className="buttonDelete"
-          onClick={deleteButton}
-          disabled={buttons.length === 0}
+          className="deleteButton"
+          onClick={Delete}
+          disabled={inputs.length === 1}
         >
           Delete
         </button>
-        {buttons.map((buttonId) => (
-          <button key={buttonId}>{buttonId}</button>
+      </div>
+      <div>
+        {inputs.map((input) => (
+          <div key={input.id}>
+            <input
+              type="text"
+              value={input.value}
+              onChange={(e) => handleChange(e, input.id)}
+            />
+          </div>
         ))}
       </div>
-
       <div>
-        <button className="buttonTotal">Total:{Total()}</button>
+        <p className="inputTotal">Total: {Total()}</p>
       </div>
     </>
   );

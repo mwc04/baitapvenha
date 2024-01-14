@@ -1,22 +1,24 @@
 * {
   margin: 0;
   padding: 0;
+  background-color: white;
 }
 
-.buttonAdd {
+.addButton {
   background-color: red;
   padding: 10px;
   margin-left: 20px;
 }
 
-.buttonDelete {
+.deleteButton {
   margin-left: 20px;
   padding: 10px;
   background-color: green;
 }
 
 .buttonTotal {
-  background-color: aqua;
   padding: 20px;
   margin-top: 500px;
+  display: flex;
+  text-decoration: center;
 }
