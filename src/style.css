@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.buttonAdd {
+  background-color: red;
+  padding: 10px;
+  margin-left: 20px;
+}
+
+.buttonDelete {
+  margin-left: 20px;
+  padding: 10px;
+  background-color: green;
+}
+
+.buttonTotal {
+  background-color: aqua;
+  padding: 20px;
+  margin-top: 500px;
+}
